@@ -2,14 +2,13 @@ package com.alberto.memorycardgame.ui.view
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.alberto.memorycardgame.R
 import com.alberto.memorycardgame.data.model.Card
 import com.alberto.memorycardgame.databinding.CardsViewBinding
 import com.alberto.memorycardgame.ui.view.activities.GameActivity
 
-class CardsViewHolder(view : View) : RecyclerView.ViewHolder(view) {
+class CardsViewHolder(view : View) : ViewHolder(view) {
 
     private val binding = CardsViewBinding.bind(view)
 

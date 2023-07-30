@@ -14,6 +14,7 @@ class InitializeCardListUseCase @Inject constructor() {
         }
 
         allIndices.shuffle()
+        allIndices.shuffle()
 
         for (i in 0 until allIndices.size) {
             val randomIndex = allIndices[i]

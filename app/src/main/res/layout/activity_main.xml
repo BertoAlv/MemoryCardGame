@@ -8,16 +8,19 @@
     tools:context=".ui.view.activities.MainActivity">
 
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnPlay"
-        android:layout_width="240dp"
+        android:layout_width="235dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="356dp"
-        android:includeFontPadding="false"
+        android:layout_marginTop="376dp"
         android:text="@string/playButton"
         android:textSize="36sp"
+        app:backgroundTint="@android:color/holo_blue_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/white"
+        app:strokeWidth="2dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

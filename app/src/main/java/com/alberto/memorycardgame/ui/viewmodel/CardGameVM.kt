@@ -1,5 +1,6 @@
 package com.alberto.memorycardgame.ui.viewmodel
 
+import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.MutableLiveData
@@ -18,19 +19,20 @@ import javax.inject.Inject
 class CardGameVM @Inject constructor(private val initializeCardList : InitializeCardListUseCase, private val updateCard : UpdateCardUseCase) : ViewModel() {
 
     val cardListLD = MutableLiveData<List<Card>>()
+    val showDialog = MutableLiveData<Boolean>()
     var cardList = mutableListOf<Card>()
     private val flippedCards = mutableListOf<Card>()
     private var canClick : Boolean = true
 
     private val cardImageResourceIds = arrayOf(
-        R.drawable.frutas_cereza,
-        R.drawable.frutas_mandarina,
-        R.drawable.frutas_melon,
-        R.drawable.frutas_pera,
-        R.drawable.frutas_pi_a,
-        R.drawable.frutas_platano,
-        R.drawable.frutas_sandia,
-        R.drawable.frutas_tomate)
+        R.drawable.cherries_no_bg,
+        R.drawable.clementine_no_bg,
+        R.drawable.melon_no_bg,
+        R.drawable.pear_no_bg,
+        R.drawable.pineapple_no_bg,
+        R.drawable.banana_no_bg,
+        R.drawable.watermelon_no_bg,
+        R.drawable.tomato_no_bg)
 
     fun initializeCardList() {
         val initializedList = initializeCardList(cardList,cardImageResourceIds)
@@ -58,6 +60,9 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
                 rightGuess()
             }
             flippedCards.clear()
+            if (checkIfFinish()){
+                showDialog.postValue(true)
+            }
         }
 
     }
@@ -80,4 +85,10 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
         canClick=true
     }
 
+    private fun checkIfFinish() : Boolean = cardList.all { it.isRevealed }
+
+    fun restartGame() {
+        cardList.clear()
+        initializeCardList()
+    }
 }

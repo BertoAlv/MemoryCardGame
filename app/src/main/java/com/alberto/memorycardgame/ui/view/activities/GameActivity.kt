@@ -3,10 +3,13 @@ package com.alberto.memorycardgame.ui.view.activities
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alberto.memorycardgame.R
 import com.alberto.memorycardgame.data.model.Card
 import com.alberto.memorycardgame.databinding.ActivityGameBinding
@@ -20,14 +23,11 @@ class GameActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGameBinding
     private val viewModel : CardGameVM by viewModels()
+    private lateinit var heartsList: List<ImageView>
 
     companion object{
         fun getScreenWidth() : Int {
             return Resources.getSystem().displayMetrics.widthPixels
-        }
-
-        fun getScreenHeight() : Int {
-            return Resources.getSystem().displayMetrics.heightPixels
         }
     }
 
@@ -39,15 +39,29 @@ class GameActivity : AppCompatActivity() {
         binding = ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        heartsList = listOf(binding.firstLife,binding.secondLife,binding.thirdLife,binding.fourthLife,binding.fifthLive,binding.sixthLive)
+
         initRecyclerView()
 
-        viewModel.showDialog.observe(this){
-            showAlertDialog()
+        viewModel.remainingLives.observe(this){
+            heartsList[it].visibility = View.INVISIBLE
+        }
+
+        viewModel.playerScore.observe(this){
+            binding.tvScore.text = it.toString()
+        }
+
+        viewModel.winDialog.observe(this){
+            winAlertDialog()
+        }
+
+        viewModel.loseDialog.observe(this){
+            loseAlertDialog()
         }
     }
 
     private fun initRecyclerView() {
-        binding.rvCardTable.layoutManager = GridLayoutManager(this, 4)
+        binding.rvCardTable.layoutManager = GridLayoutManager(this, 4,RecyclerView.HORIZONTAL,false)
         viewModel.cardListLD.observe(this){
             binding.rvCardTable.adapter = CardsAdapter(it){ card -> onItemSelected(card)}
         }
@@ -57,24 +71,53 @@ class GameActivity : AppCompatActivity() {
         viewModel.flipCard(card)
     }
 
-    private fun showAlertDialog() {
-        val endDialog = AlertDialog.Builder(this)
+    private fun winAlertDialog() {
+        val winDialog = AlertDialog.Builder(this)
 
-        endDialog.setTitle(R.string.end_dialog_title)
-        endDialog.setMessage(R.string.end_dialog_message)
+        winDialog.setTitle(R.string.win_dialog_title)
+        winDialog.setMessage("You have completed this level with a total score of ${viewModel.score} points.")
 
-        endDialog.setPositiveButton("FINISH") { dialog: DialogInterface, _: Int ->
+        winDialog.setPositiveButton("FINISH") { dialog: DialogInterface, _: Int ->
             dialog.dismiss()
             finish()
+            resetLives()
         }
 
-        endDialog.setNegativeButton("RESTART") {dialog: DialogInterface, _: Int ->
+        winDialog.setNegativeButton("RESTART") {dialog: DialogInterface, _: Int ->
             dialog.dismiss()
             viewModel.restartGame()
+            resetLives()
         }
 
-        endDialog.create().show()
+        winDialog.create().show()
+
     }
 
+    private fun loseAlertDialog() {
+        val loseDialog = AlertDialog.Builder(this)
+
+        loseDialog.setTitle(R.string.lose_dialog_title)
+        loseDialog.setMessage(R.string.lose_dialog_message)
+
+        loseDialog.setPositiveButton("TRY AGAIN") { dialog: DialogInterface, _: Int ->
+            dialog.dismiss()
+            viewModel.restartGame()
+            resetLives()
+        }
+
+        loseDialog.setNegativeButton("GO BACK TO MENU") {dialog: DialogInterface, _: Int ->
+            dialog.dismiss()
+            finish()
+            resetLives()
+        }
+
+        loseDialog.create().show()
+    }
+
+    private fun resetLives(){
+        heartsList.forEach {
+            it.visibility = View.VISIBLE
+        }
+    }
 
 }

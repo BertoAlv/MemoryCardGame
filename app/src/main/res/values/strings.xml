@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">MemoryCardGame</string>
     <string name="playButton">PLAY</string>
-    <string name="end_dialog_title">CONGRATS!</string>
-    <string name="end_dialog_message">You have completed the level.</string>
+    <string name="win_dialog_title">CONGRATS!</string>
+    <string name="win_dialog_message">You have completed this level.</string>
+    <string name="lose_dialog_title">UNLUCKY!</string>
+    <string name="lose_dialog_message">You ran out of lives.\nBetter luck next time...</string>
 </resources>

@@ -1,8 +1,10 @@
 package com.alberto.memorycardgame.ui.viewmodel
 
 import android.app.AlertDialog
+import android.media.Image
 import android.os.Handler
 import android.os.Looper
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -19,8 +21,13 @@ import javax.inject.Inject
 class CardGameVM @Inject constructor(private val initializeCardList : InitializeCardListUseCase, private val updateCard : UpdateCardUseCase) : ViewModel() {
 
     val cardListLD = MutableLiveData<List<Card>>()
-    val showDialog = MutableLiveData<Boolean>()
-    var cardList = mutableListOf<Card>()
+    val winDialog = MutableLiveData<Boolean>()
+    val loseDialog = MutableLiveData<Boolean>()
+    val playerScore = MutableLiveData<Int>()
+    var score = 0
+    val remainingLives = MutableLiveData<Int>()
+    var lives = 6
+    private var cardList = mutableListOf<Card>()
     private val flippedCards = mutableListOf<Card>()
     private var canClick : Boolean = true
 
@@ -61,7 +68,7 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
             }
             flippedCards.clear()
             if (checkIfFinish()){
-                showDialog.postValue(true)
+                winDialog.postValue(true)
             }
         }
 
@@ -72,6 +79,9 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
     }
 
     private fun wrongGuess(card1: Card, card2: Card){
+        score -= 50
+        lives -= 1
+        remainingLives.postValue(lives)
         Handler(Looper.getMainLooper()).postDelayed({
             card1.isRevealed = false
             card2.isRevealed = false
@@ -79,9 +89,14 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
             updateCard(card2)
             canClick=true
         }, 800)
+        if (lives == 0){
+            loseDialog.postValue(true)
+        }
     }
 
-    private fun rightGuess(){
+    private fun rightGuess() {
+        score+=100
+        playerScore.postValue(score)
         canClick=true
     }
 
@@ -90,5 +105,7 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
     fun restartGame() {
         cardList.clear()
         initializeCardList()
+        score = 0
+        lives = 6
     }
 }

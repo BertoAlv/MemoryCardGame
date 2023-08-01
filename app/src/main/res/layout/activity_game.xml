@@ -4,19 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="10dp"
     android:background="@drawable/red_velvet_background"
     tools:context=".ui.view.activities.GameActivity">
+
+    <LinearLayout
+        android:id="@+id/lytPlayerInfo"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rvCardTable">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SCORE:"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="20sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end">
+
+        <ImageView
+            android:id="@+id/firstLife"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg"/>
+
+        <ImageView
+            android:id="@+id/secondLife"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg"/>
+
+        <ImageView
+            android:id="@+id/thirdLife"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg"/>
+
+        <ImageView
+            android:id="@+id/fourthLife"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg" />
+
+        <ImageView
+            android:id="@+id/fifthLive"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg" />
+
+        <ImageView
+            android:id="@+id/sixthLive"
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:src="@drawable/heart_icon_no_bg" />
+
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCardTable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/lytPlayerInfo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

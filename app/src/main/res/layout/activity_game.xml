@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@drawable/red_velvet_background"
+    android:background="@drawable/background_game_screen"
     tools:context=".ui.view.activities.GameActivity">
 
     <LinearLayout

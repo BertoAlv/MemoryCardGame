@@ -79,7 +79,8 @@ class CardGameVM @Inject constructor(private val initializeCardList : Initialize
     }
 
     private fun wrongGuess(card1: Card, card2: Card){
-        score -= 50
+        score -= 25
+        playerScore.postValue(score)
         lives -= 1
         remainingLives.postValue(lives)
         Handler(Looper.getMainLooper()).postDelayed({

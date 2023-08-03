@@ -21,7 +21,7 @@ class CardsViewHolder(view : View) : ViewHolder(view) {
     fun bind(card: Card, onClickListener : (Card) -> Unit){
         params.width = cardWidth/5
         binding.cvCardItem.layoutParams = params
-        binding.ivCardImage.setImageResource(R.drawable.card_back_red)
+        binding.ivCardImage.setImageResource(R.drawable.card_back)
         binding.cvCardItem.setOnClickListener {
             onClickListener(card)
         }
